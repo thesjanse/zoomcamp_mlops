@@ -1,0 +1,14 @@
+version: '3'
+services:
+  ds-notebook:
+    image: jupyter/datascience-notebook
+    container_name: "ds_notebook"
+    user: root
+    environment:
+      CHOWN_HOME: "yes"
+      CHOWN_HOME_OPTS: -R
+    ports:
+      - 8888:8888
+    volumes:
+      - "./jupyter/:/home/jovyan/work"
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
