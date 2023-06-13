@@ -1,0 +1,9 @@
+s3fs
+boto3
+scikit-learn
+pandas
+numpy
+scipy
+mlflow
+xgboost
+prefect-email
