@@ -1,4 +1,7 @@
 /week*/jupyter/.local/
 /week*/jupyter/.ipython/
 /week*/jupyter/.jupyter/
-/*/jupyter/.ipynb_checkpoints/
+/*/*/.ipynb_checkpoints/
+/*/*/*/.ipynb_checkpoints/
+/week*/postgres_data/
+/week*/minio_data/
