@@ -1,0 +1,48 @@
+version: '3'
+services:
+  ds-notebook:
+    build:
+      context: ./jupyter/
+      dockerfile: Dockerfile
+    volumes:
+      - "./jupyter/:/home/jovyan/work"
+    ports:
+      - 8888:8888
+    # user: root
+    user: "1000"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # NB_UID: ${NB_UID}
+      # NB_GID: ${NB_GID}
+      # CHOWN_HOME: "yes"
+      # CHOWN_HOME_OPTS: -R
+    container_name: "jupyter_notebook"
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+  
+  db:
+    image: postgres:14
+    restart: always
+    container_name: "database"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  grafana:
+    image: grafana/grafana
+    restart: always
+    container_name: "grafana"
+    user: "0"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./grafana/config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - ./grafana/config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+      - ./grafana/dashboards:/opt/grafana/dashboards
+    ports:
+      - 3000:3000
