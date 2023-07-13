@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ds-notebook:
+    build:
+      context: ./auxiliary/
+      dockerfile: Dockerfile
+    volumes:
+      - "./jupyter/:/home/jovyan/work"
+    ports:
+      - 8888:8888
+    user: root
+    container_name: "jupyter_notebook"
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+
+volumes:
+  postgres_data:
+    driver: local
